@@ -18,7 +18,6 @@ public interface UserDAO {
             ") values (#{name},#{password},#{salt},#{headUrl})"})
     int addUser(User user);
 
-<<<<<<< HEAD
     @Select({"select " , SELECT_FIELDS , " from " , TABLE_NAME , " where id = #{id}"})
     User selectById(int id);
 
@@ -28,15 +27,5 @@ public interface UserDAO {
     @Delete({"delete from" , TABLE_NAME , "where id=#{id}"})
     void deleteById(int id);
 
-=======
-    @Select({"select " , SELECT_FIELDS , "from" ,  TABLE_NAME , " where id=#{id} "})
-    User selectById(int id);
 
-
-    @Update({"update " , TABLE_NAME , " set password=#{password} where id = #{id}"})
-    void updatePassword(User user);
-
-    @Delete({"delete from " , TABLE_NAME , " where id = #{id}"})
-    void deleteById(int id);
->>>>>>> 7d46fbbaf454ed4c1e6bdeb0c8354782f28b0869
 }
