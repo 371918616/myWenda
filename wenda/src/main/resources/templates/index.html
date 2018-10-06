@@ -42,7 +42,8 @@
                                         <div class="expandable entry-body">
                                             <div class="zm-item-vote">
                                                 <a class="zm-item-vote-count js-expand js-vote-count" href="javascript:;" data-bind-votecount="" >${vo.followCount}</a></div>
-                                            <div class="zm-item-answer-author-info" th:text="${vo.question.createdDate}">
+                                            <div class="zm-item-answer-author-info" th:text="${#dates.format(vo.question.createdDate,'yyyy-MM-dd HH:mm:ss')}">
+
                                                 <a class="author-link" data-tip="p$b$amuro1230" target="_blank" th:ref="/user/${vo.user.id}"  th:text="${vo.user.name}">${vo.user.name}</a>
                                                 ，$data.format('yyyy-MM-dd HH:mm:ss', ${vo.question.createdDate})
 
@@ -61,7 +62,7 @@
                                                 <div class="zm-meta-panel">
                                                     <a data-follow="q:link" class="follow-link zg-follow meta-item" href="javascript:;" id="sfb-123114">
                                                         <i class="z-icon-follow"></i>关注问题</a>
-                                                    <a href="#" name="addcomment" class="meta-item toggle-comment js-toggleCommentBox" th:text="${vo.question.commentCount}">
+                                                    <a href="#" name="addcomment" class="meta-item toggle-comment js-toggleCommentBox" th:text="${vo.question.commentCount}条评论">
                                                         <i class="z-icon-comment"></i>${vo.question.commentCount} 条评论</a>
 
 
