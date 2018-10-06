@@ -22,7 +22,7 @@ xmlns:th="http://www.thymeleaf.org">
     </style>
 
 </head>
-<body class="zhi">
+<body class="zhi $!{bodyclass}">
 
 <div role="navigation" class="zu-top" th:fragment="commonNav">
     <div class="zg-wrap modal-shifting clearfix" id="zh-top-inner">
@@ -47,7 +47,7 @@ xmlns:th="http://www.thymeleaf.org">
                 </a>
                 <ul class="top-nav-dropdown" id="top-nav-profile-dropdown" aria-labelledby=":0">
                     <li>
-                        <a href="/user/$!{user.id}" tabindex="-1" id=":1">
+                        <a th:ref="/user/${user.id}"  tabindex="-1" id=":1">
                             <i class="zg-icon zg-icon-dd-home"></i>我的主页
                         </a>
                     </li>
