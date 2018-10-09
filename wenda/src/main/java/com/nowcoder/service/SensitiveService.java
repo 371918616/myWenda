@@ -33,9 +33,11 @@ public class SensitiveService implements InitializingBean{
         void addSubNode(Character key , TrieNode node){
             subNodes.put(key , node);
         }
+
         TrieNode getSubNode(Character key){
             return subNodes.get(key);
         }
+
         boolean isKeywordEnd(){return end;}
 
         void setKeywordEnd(boolean end){this.end = end;}
@@ -136,6 +138,7 @@ public class SensitiveService implements InitializingBean{
                 // 关键词结束， 设置结束标志
                 tempNode.setKeywordEnd(true);
             }
+
         }
     }
 

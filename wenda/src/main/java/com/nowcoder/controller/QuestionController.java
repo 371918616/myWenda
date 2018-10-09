@@ -1,19 +1,21 @@
 package com.nowcoder.controller;
 
-import com.nowcoder.model.HostHolder;
-import com.nowcoder.model.Question;
+import com.nowcoder.model.*;
+import com.nowcoder.service.CommentService;
+import com.nowcoder.service.LikeService;
 import com.nowcoder.service.QuestionService;
+import com.nowcoder.service.UserService;
 import com.nowcoder.util.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/10/6.
@@ -27,7 +29,43 @@ public class QuestionController {
     @Autowired
     HostHolder hostHolder;
 
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    LikeService likeService;
+
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
+
+    @RequestMapping(value = {"/question/{qid}"} , method = RequestMethod.GET)
+    public String questionDetail(Model model ,
+                                 @PathVariable("qid") int qid){
+        Question question = questionService.getById(qid);
+        model.addAttribute("question" , question);
+
+        List<Comment> commentList = commentService.getCommentsByEntity(qid , EntityType.ENITY_QUESTION);
+        List<ViewObject> comments = new ArrayList<>();
+        for(Comment comment : commentList){
+
+            ViewObject vo = new ViewObject();
+            vo.set("comment" , comment);
+            if(hostHolder.getUser() == null){
+                vo.set("liked" , 0);
+            }else{
+                vo.set("liked" , likeService.getLikeStatus(hostHolder.getUser().getId() , EntityType.ENITY_COMMENT , comment.getId()));
+            }
+
+            vo.set("likeCount" , likeService.getLikeCount(EntityType.ENITY_COMMENT , comment.getId()));
+            vo.set("user" , userService.getUser(comment.getId()));
+            comments.add(vo);
+        }
+        model.addAttribute("comments" , comments);
+
+        return "detail";
+    }
 
     @RequestMapping(value="/question/add" , method = {RequestMethod.POST})
     @ResponseBody
